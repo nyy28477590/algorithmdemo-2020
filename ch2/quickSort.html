@@ -2,11 +2,10 @@
 <html>
 <head><meta charset="utf-8" />
 
-<title>heapSort</title>
+<title>quickSort</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
 
 
 
@@ -13073,34 +13072,77 @@ div#notebook {
     <!-- End of mathjax configuration --></head>
 <body>
   <nav class="navbar navbar-light bg-light">
-    <a href="index.html"><span class="navbar-brand mb-0 h1">演算法實作</span></a>
+    <a href="../index.html"><span class="navbar-brand mb-0 h1">演算法實作</span></a>
 </nav>
   <div tabindex="-1" id="notebook" class="border-box-sizing">
     <div class="container" id="notebook-container">
 
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">adjust</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="n">child</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">i</span> <span class="c1">#兒子</span>
-    <span class="n">item</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="c1">#被選中的數</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">partition</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="n">pivot</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>
+    <span class="n">low</span> <span class="o">=</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">high</span> <span class="o">=</span> <span class="n">end</span>
     
-    <span class="k">while</span> <span class="n">child</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">:</span>   <span class="c1">#兒子存在</span>
-        <span class="k">if</span> <span class="n">child</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="ow">and</span> <span class="n">arr</span><span class="p">[</span><span class="n">child</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">arr</span><span class="p">[</span><span class="n">child</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]:</span>   <span class="c1">#右兒子存在</span>
-            <span class="n">child</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;pivot=&#39;</span><span class="p">,</span> <span class="n">pivot</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># If the current value we&#39;re looking at is larger than the pivot</span>
+        <span class="c1"># it&#39;s in the right place (right side of pivot) and we can move left,</span>
+        <span class="c1"># to the next element.</span>
+        <span class="c1"># We also need to make sure we haven&#39;t surpassed the low pointer, since that</span>
+        <span class="c1"># indicates we have already moved all the elements to their correct side of the pivot</span>
         
-        <span class="k">if</span> <span class="n">item</span> <span class="o">&gt;=</span> <span class="n">arr</span><span class="p">[</span><span class="n">child</span><span class="p">]:</span>
-            <span class="k">break</span>
+        <span class="c1"># 從左邊開始找，找大於Pivot的值</span>
+        <span class="c1"># 若左邊index&lt;右邊index 且 值&lt;pivot，繼續找</span>
+        <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span> <span class="ow">and</span> <span class="n">array</span><span class="p">[</span><span class="n">low</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">low</span> <span class="o">=</span> <span class="n">low</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;left:&quot;</span><span class="p">,</span> <span class="n">low</span><span class="p">)</span>
             
-        <span class="n">arr</span><span class="p">[</span><span class="n">child</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">child</span><span class="p">]</span>
-        <span class="n">child</span> <span class="o">*=</span> <span class="mi">2</span>
-        <span class="k">break</span>
-        
-    <span class="n">arr</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">child</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="c1"># 從右邊開始找，找小於Pivotk的值</span>
+        <span class="k">while</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span> <span class="ow">and</span> <span class="n">array</span><span class="p">[</span><span class="n">high</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">high</span> <span class="o">=</span> <span class="n">high</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;right:&quot;</span><span class="p">,</span> <span class="n">high</span><span class="p">)</span>
+            
+        <span class="c1"># We either found a value for both high and low that is out of order</span>
+        <span class="c1"># or low is higher than high, in which case we exit the loop</span>
+        <span class="k">if</span> <span class="n">low</span> <span class="o">&lt;=</span> <span class="n">high</span><span class="p">:</span>
+            <span class="n">array</span><span class="p">[</span><span class="n">low</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">high</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">high</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">low</span><span class="p">]</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+            <span class="c1"># The loop continues</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># We exit out of the loop</span>
+            <span class="k">break</span>
+
+    <span class="n">array</span><span class="p">[</span><span class="n">start</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">high</span><span class="p">]</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">high</span><span class="p">],</span> <span class="n">array</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">high</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="n">end</span><span class="p">:</span>
+        <span class="k">return</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">partition</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;p=&#39;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;adjust&quot;</span><span class="p">,</span> <span class="n">arr</span><span class="p">)</span>
+    <span class="c1">#遞迴</span>
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13110,50 +13152,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n</span> <span class="o">//</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">adjust</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-</pre></div>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">26</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">61</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">59</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">19</span><span class="p">]</span>
 
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">heapSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-    <span class="n">heapify</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-    
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        
-        <span class="n">adjust</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-        
-    <span class="k">return</span> <span class="n">arr</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># main</span>
-<span class="n">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">]</span>
-<span class="n">heapSort</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">quick_sort</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">array</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
 </pre></div>
 
     </div>
@@ -13170,12 +13175,48 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>adjust [0, 22, 11, 13, 2, 10]
-adjust [0, 13, 11, 10, 2, 22]
-adjust [0, 11, 2, 10, 13, 22]
-adjust [0, 10, 2, 11, 13, 22]
-adjust [0, 2, 10, 11, 13, 22]
-[0, 2, 10, 11, 13, 22]
+<pre>pivot= 26
+left: 2
+[26, 5, 19, 1, 61, 11, 59, 15, 48, 37]
+left: 3
+left: 4
+right: 8
+right: 7
+[26, 5, 19, 1, 15, 11, 59, 61, 48, 37]
+left: 5
+left: 6
+right: 6
+right: 5
+[11, 5, 19, 1, 15, 26, 59, 61, 48, 37]
+p= 5
+pivot= 11
+left: 2
+right: 3
+[11, 5, 1, 19, 15, 26, 59, 61, 48, 37]
+left: 3
+right: 2
+[1, 5, 11, 19, 15, 26, 59, 61, 48, 37]
+p= 2
+pivot= 1
+right: 0
+[1, 5, 11, 19, 15, 26, 59, 61, 48, 37]
+p= 0
+pivot= 19
+left: 5
+[1, 5, 11, 15, 19, 26, 59, 61, 48, 37]
+p= 4
+pivot= 59
+[1, 5, 11, 15, 19, 26, 59, 37, 48, 61]
+left: 8
+left: 9
+right: 8
+[1, 5, 11, 15, 19, 26, 48, 37, 59, 61]
+p= 8
+pivot= 48
+left: 8
+[1, 5, 11, 15, 19, 26, 37, 48, 59, 61]
+p= 7
+[1, 5, 11, 15, 19, 26, 37, 48, 59, 61]
 </pre>
 </div>
 </div>
